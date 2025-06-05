@@ -17,6 +17,7 @@ import {
   SendFilledIcon,
   SendIcon,
   SpeakIcon,
+  MicIcon,
   StopIcon,
   WarningIcon,
 } from "components/system/Taskbar/AI/icons";
@@ -57,6 +58,7 @@ import { useWindowAI } from "hooks/useWindowAI";
 import { useFileSystem } from "contexts/fileSystem";
 import { readPdfText } from "components/apps/PDF/functions";
 import { useSnapshots } from "hooks/useSnapshots";
+import useSpeechToText from "components/system/Taskbar/AI/useSpeechToText";
 
 type AIChatProps = {
   toggleAI: () => void;
@@ -121,6 +123,11 @@ const AIChat: FC<AIChatProps> = ({ toggleAI }) => {
       setPromptText("");
     }
   }, [addMessage, promptText]);
+  const speech = useSpeechToText((text) => {
+    setPromptText(text);
+    addMessage(escapeHtml(text), "user");
+    (textAreaRef.current as HTMLTextAreaElement).value = "";
+  });
   const lastAiMessageIndex = useMemo(
     () =>
       conversation.length -
@@ -508,7 +515,9 @@ const AIChat: FC<AIChatProps> = ({ toggleAI }) => {
                   {"speechSynthesis" in window && type === "ai" && (
                     <button
                       className="control"
-                      onClick={() => speakMessage(text)}
+                      onClick={() => {
+                        speakMessage(text);
+                      }}
                       type="button"
                       {...label("Read aloud")}
                     >
@@ -647,6 +656,17 @@ const AIChat: FC<AIChatProps> = ({ toggleAI }) => {
           {...label("New topic")}
         >
           <ChatIcon />
+        </button>
+        <button
+          className={`mic${speech.recording ? " recording" : ""}`}
+          onClick={() => {
+            if (speech.recording) speech.stop();
+            else speech.start();
+          }}
+          type="button"
+          {...label(speech.recording ? "Stop recording" : "Start recording")}
+        >
+          <MicIcon />
         </button>
         <button
           className="submit"
