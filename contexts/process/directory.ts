@@ -385,6 +385,16 @@ const directory: Processes = {
     ],
     title: "Video Player",
   },
+  RemoteDesktop: {
+    Component: dynamic(() => import("components/apps/RemoteDesktop")),
+    backgroundColor: "#000",
+    defaultSize: {
+      height: 600,
+      width: 800,
+    },
+    icon: "/System/Icons/pc.webp",
+    title: "Remote Desktop",
+  },
   Vim: {
     Component: dynamic(() => import("components/apps/Vim")),
     allowResizing: false,
