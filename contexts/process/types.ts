@@ -39,6 +39,12 @@ type PdfProcessArguments = {
   subTitle?: string;
 };
 
+type RemoteDesktopProcessArguments = {
+  connect?: (url: string) => void;
+  connected?: boolean;
+  disconnect?: () => void;
+};
+
 export type RelativePosition = {
   bottom?: number;
   left?: number;
@@ -70,7 +76,8 @@ export type ProcessArguments = BaseProcessArguments &
   DialogProcessArguments &
   MediaPlayerProcessArguments &
   MonacoProcessArguments &
-  PdfProcessArguments;
+  PdfProcessArguments &
+  RemoteDesktopProcessArguments;
 
 export type ProcessElements = {
   componentWindow?: HTMLElement;
