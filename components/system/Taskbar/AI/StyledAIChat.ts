@@ -541,6 +541,28 @@ const StyledAIChat = styled(motion.section)<StyledAIChatProps>`
       }
     }
 
+    .mic {
+      background-color: rgb(44 44 44);
+      border-radius: 50%;
+      cursor: pointer;
+      height: 36px;
+      margin-left: 6px;
+      place-content: center;
+      place-items: center;
+      width: 36px;
+
+      &.recording {
+        background-color: rgb(168 46 46);
+      }
+
+      > svg {
+        fill: #fff;
+        height: 18px;
+        pointer-events: none;
+        width: 18px;
+      }
+    }
+
     .submit {
       background-color: transparent;
       border-radius: 5px;

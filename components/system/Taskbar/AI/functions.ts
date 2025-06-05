@@ -43,16 +43,24 @@ export const formatWebLlmProgress = (text: string): string => {
   return text;
 };
 
-export const speakMessage = (text: string): void => {
-  const [voice] = window.speechSynthesis.getVoices();
-  const utterance = new SpeechSynthesisUtterance(text);
+export const speakMessage = async (text: string): Promise<void> => {
+  try {
+    const { speak } = await import("speech-synthesizer");
 
-  utterance.voice = voice;
-  utterance.pitch = 0.9;
-  utterance.rate = 1.5;
-  utterance.volume = 0.5;
+    const url = await speak({ text });
 
-  window.speechSynthesis.speak(utterance);
+    await new Audio(url).play();
+  } catch {
+    const [voice] = window.speechSynthesis.getVoices();
+    const utterance = new SpeechSynthesisUtterance(text);
+
+    utterance.voice = voice;
+    utterance.pitch = 0.9;
+    utterance.rate = 1.5;
+    utterance.volume = 0.5;
+
+    window.speechSynthesis.speak(utterance);
+  }
 };
 
 export const responseTweaks = (text: string): string => {
